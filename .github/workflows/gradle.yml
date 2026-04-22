@@ -41,8 +41,8 @@ jobs:
       with:
         name: lambda-jars
         path: |
-          login/demo/build/libs/demo-0.1-all.jar
-          analyticsDashboard/demo/build/libs/demo-0.1-all.jar
+          login/demo/build/libs/login-0.1-all.jar
+          analyticsDashboard/demo/build/libs/analyticsDashboard-0.1-all.jar
 
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
