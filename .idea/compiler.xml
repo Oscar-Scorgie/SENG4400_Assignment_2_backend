@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="com.demo.demo" options="-parameters -Amicronaut.processing.incremental=true -Amicronaut.processing.annotations=com.demo.* -Amicronaut.processing.group=com.demo -Amicronaut.processing.module=demo" />
+      <module name="com.demo.demo.main" options="-parameters -Amicronaut.processing.incremental=true -Amicronaut.processing.annotations=com.demo.* -Amicronaut.processing.group=com.demo -Amicronaut.processing.module=demo" />
+      <module name="com.demo.demo.test" options="-parameters -Amicronaut.processing.incremental=true -Amicronaut.processing.annotations=com.demo.* -Amicronaut.processing.group=com.demo -Amicronaut.processing.module=demo" />
+      <module name="demo" options="-parameters -Amicronaut.processing.incremental=true -Amicronaut.processing.annotations=com.demo.* -Amicronaut.processing.group=com.demo -Amicronaut.processing.module=demo" />
+      <module name="demo.main" options="-parameters -Amicronaut.processing.incremental=true -Amicronaut.processing.annotations=com.demo.* -Amicronaut.processing.group=com.demo -Amicronaut.processing.module=demo" />
+      <module name="demo.test" options="-parameters -Amicronaut.processing.incremental=true -Amicronaut.processing.annotations=com.demo.* -Amicronaut.processing.group=com.demo -Amicronaut.processing.module=demo" />
+      <module name="login.demo" options="-parameters -Amicronaut.processing.incremental=true -Amicronaut.processing.annotations=com.demo.* -Amicronaut.processing.group=com.demo -Amicronaut.processing.module=demo" />
+      <module name="login.demo.main" options="-parameters -Amicronaut.processing.incremental=true -Amicronaut.processing.annotations=com.demo.* -Amicronaut.processing.group=com.demo -Amicronaut.processing.module=demo" />
+      <module name="login.demo.test" options="-parameters -Amicronaut.processing.incremental=true -Amicronaut.processing.annotations=com.demo.* -Amicronaut.processing.group=com.demo -Amicronaut.processing.module=demo" />
+    </option>
+  </component>
+</project>
