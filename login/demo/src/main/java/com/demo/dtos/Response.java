@@ -1,7 +1,10 @@
 package com.demo.dtos;
 
+import io.micronaut.serde.annotation.Serdeable;
+
 import java.util.List;
 
+@Serdeable
 public class Response {
     boolean success;
     String message;
