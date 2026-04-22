@@ -1,0 +1,13 @@
+awslocal lambda create-function \
+  --function-name login \
+  --runtime java21 \
+  --handler com.demo.AuthHandler::handleRequest \
+  --role arn:aws:iam::000000000000:role/lambda-role \
+  --zip-file fileb://login/demo/build/libs/login-0.1-all.jar
+
+awslocal lambda create-function \
+  --function-name analyticsDashboard \
+  --runtime java21 \
+  --handler com.demo.AnalyticsHandler::handleRequest \
+  --role arn:aws:iam::000000000000:role/lambda-role \
+  --zip-file fileb://analyticsDashboard/demo/build/libs/analyticsDashboard-0.1-all.jar
