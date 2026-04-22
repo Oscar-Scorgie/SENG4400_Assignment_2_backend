@@ -44,7 +44,7 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.javaparser/javaparser-core/3.27.0/d9046a138aac01fd6b5ed78e5cb8e4081d46b814/javaparser-core-3.27.0.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.checkerframework/checker-qual/3.49.4/dab18d65562ddd27ca08daf5da04bfe993246648/checker-qual-3.49.4.jar" />
         </processorPath>
-        <module name="com.demo.demo.main" />
+        <module name="login.demo.main" />
       </profile>
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
@@ -82,7 +82,7 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.javaparser/javaparser-core/3.27.0/d9046a138aac01fd6b5ed78e5cb8e4081d46b814/javaparser-core-3.27.0.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.checkerframework/checker-qual/3.49.4/dab18d65562ddd27ca08daf5da04bfe993246648/checker-qual-3.49.4.jar" />
         </processorPath>
-        <module name="com.demo.demo.test" />
+        <module name="login.demo.test" />
       </profile>
     </annotationProcessing>
   </component>

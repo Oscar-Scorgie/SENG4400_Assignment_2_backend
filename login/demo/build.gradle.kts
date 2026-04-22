@@ -8,7 +8,6 @@ version = "0.1"
 group = "com.demo"
 
 
-
 repositories {
     mavenCentral()
 }
