@@ -8,9 +8,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/analyticsDashboard" />
-            <option value="$PROJECT_DIR$/login" />
-            <option value="$PROJECT_DIR$/transactions" />
+            <option value="$PROJECT_DIR$/analyticsDashboard/demo" />
+            <option value="$PROJECT_DIR$/login/demo" />
+            <option value="$PROJECT_DIR$/transactions/demo" />
           </set>
         </option>
       </GradleProjectSettings>
