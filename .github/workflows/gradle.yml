@@ -94,10 +94,10 @@ jobs:
         run: |
           aws --endpoint-url=http://localhost:4566 lambda update-function-code \
           --function-name login \
-          --zip-file fileb://login-all.jar
+          --zip-file fileb://login/demo/build/libs/login-0.1-all.jar
 
       - name: Deploy Analytics Lambda
         run: |
           aws --endpoint-url=http://localhost:4566 lambda update-function-code \
           --function-name analyticsDashboard \
-          --zip-file fileb://analyticsDashboard-all.jar
+          --zip-file fileb://analyticsDashboard/demo/build/libs/analyticsDashboard-0.1-all.jar
