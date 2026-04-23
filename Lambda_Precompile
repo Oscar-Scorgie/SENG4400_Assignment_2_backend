@@ -4,7 +4,8 @@ awslocal lambda create-function \
   --handler com.demo.AuthHandler::handleRequest \
   --role arn:aws:iam::000000000000:role/lambda-role \
   --zip-file fileb://login/demo/build/libs/login-0.1-all.jar \
-  --timeout 30
+  --timeout 30 \
+  --environment Variables={DYNAMODB_ENDPOINT=http://172.17.0.2:4566}
 
 awslocal lambda create-function \
   --function-name analyticsDashboard \
@@ -12,4 +13,5 @@ awslocal lambda create-function \
   --handler com.demo.AnalyticsHandler::handleRequest \
   --role arn:aws:iam::000000000000:role/lambda-role \
   --zip-file fileb://analyticsDashboard/demo/build/libs/analyticsDashboard-0.1-all.jar \
-  --timeout 30
+  --timeout 30 \
+  --environment Variables={DYNAMODB_ENDPOINT=http://172.17.0.2:4566}
