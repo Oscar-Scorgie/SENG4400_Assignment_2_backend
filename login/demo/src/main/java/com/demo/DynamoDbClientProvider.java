@@ -9,9 +9,12 @@ import java.net.URI;
 public class DynamoDbClientProvider {
 
     public static DynamoDbClient getClient() {
+        String endpoint = System.getenv("DYNAMODB_ENDPOINT");
+        if (endpoint == null) endpoint = "http://localhost:4566";
+
         return DynamoDbClient.builder()
                 .region(Region.US_EAST_1)
-                .endpointOverride(URI.create("http://localhost:4566"))
+                .endpointOverride(URI.create(endpoint))
                 .credentialsProvider(StaticCredentialsProvider.create(
                         AwsBasicCredentials.create("test", "test")))
                 .build();
