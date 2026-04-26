@@ -27,8 +27,6 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
 }
 
-
-
 application {
     mainClass = "com.demo.Application"
 }
@@ -37,15 +35,7 @@ java {
     sourceCompatibility = JavaVersion.toVersion("21")
     targetCompatibility = JavaVersion.toVersion("21")
 }
-
-
-
-
 graalvmNative.toolchainDetection = false
-
-
-
-
 
 micronaut {
     runtime("lambda_java")
@@ -66,9 +56,7 @@ micronaut {
         optimizeNetty = true
         replaceLogbackXml = true
     }
-
 }
-
 
 tasks.named<io.micronaut.gradle.docker.NativeImageDockerfile>("dockerfileNative") {
     jdkVersion = "21"
@@ -78,10 +66,3 @@ tasks.named<io.micronaut.gradle.docker.NativeImageDockerfile>("dockerfileNative"
         "-Dio.netty.noPreferDirect=true"
     )
 }
-
-
-
-
-
-
-
