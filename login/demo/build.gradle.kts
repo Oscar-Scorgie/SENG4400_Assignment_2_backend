@@ -24,6 +24,7 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     implementation(platform("software.amazon.awssdk:bom:2.42.36"))
     implementation("software.amazon.awssdk:dynamodb")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
 }
 
 

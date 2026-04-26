@@ -15,3 +15,70 @@ awslocal lambda create-function \
   --zip-file fileb://analyticsDashboard/demo/build/libs/analyticsDashboard-0.1-all.jar \
   --timeout 30 \
   --environment Variables={DYNAMODB_ENDPOINT=http://172.17.0.2:4566}
+
+# Create REST API
+set API_ID (awslocal apigateway create-rest-api \
+  --name "banking-api" \
+  --query 'id' --output text)
+
+# Get Root Resource ID from REST API
+set ROOT_ID (awslocal apigateway get-resources \
+  --rest-api-id $API_ID \
+  --query 'items[0].id' --output text)
+
+# Create Login Resource
+set LOGIN_ID (awslocal apigateway create-resource \
+  --rest-api-id $API_ID \
+  --parent-id $ROOT_ID \
+  --path-part "login" \
+  --query 'id' --output text)
+
+# Assign Login Resource to REST API
+awslocal apigateway put-method \
+--rest-api-id $API_ID \
+--resource-id $LOGIN_ID \
+--http-method POST \
+--authorization-type NONE
+
+# Give the function a uri
+awslocal apigateway put-integration \
+--rest-api-id $API_ID \
+--resource-id $LOGIN_ID \
+--http-method POST \
+--type AWS_PROXY \
+--integration-http-method POST \
+--uri "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:000000000000:function:login/invocations"
+
+# Create Analytics Resource
+set ANALYTICS_ID (awslocal apigateway create-resource \
+  --rest-api-id $API_ID \
+  --parent-id $ROOT_ID \
+  --path-part "analytics" \
+  --query 'id' --output text)
+
+# Assign Analytics Resource to REST API
+awslocal apigateway put-method \
+  --rest-api-id $API_ID \
+  --resource-id $ANALYTICS_ID \
+  --http-method GET \
+  --authorization-type NONE
+
+# Give the function a uri
+awslocal apigateway put-integration \
+  --rest-api-id $API_ID \
+  --resource-id $ANALYTICS_ID \
+  --http-method GET \
+  --type AWS_PROXY \
+  --integration-http-method POST \
+  --uri "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:000000000000:function:analyticsDashboard/invocations"
+
+# Deploy API Gateway
+awslocal apigateway create-deployment \
+  --rest-api-id $API_ID \
+  --stage-name local
+
+# Print my API endpoints
+echo ""
+echo "Your endpoints:"
+echo "  POST http://localhost:4566/restapis/$API_ID/local/_user_request_/login"
+echo "  GET  http://localhost:4566/restapis/$API_ID/local/_user_request_/analytics"
