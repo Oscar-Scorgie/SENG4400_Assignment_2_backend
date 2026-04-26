@@ -7,6 +7,8 @@ public class Request {
     String email;
     String password;
 
+    public Request() {}
+
     public Request(String email, String password) {
         this.email = email;
         this.password = password;
