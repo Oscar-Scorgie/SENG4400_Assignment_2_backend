@@ -26,6 +26,7 @@ dependencies {
     implementation("software.amazon.awssdk:dynamodb")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
     implementation("com.amazonaws:aws-lambda-java-core:1.2.3")
+    implementation("com.auth0:java-jwt:4.4.0")
 }
 
 application {

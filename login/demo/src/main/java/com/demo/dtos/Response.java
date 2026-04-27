@@ -2,16 +2,21 @@ package com.demo.dtos;
 
 import io.micronaut.serde.annotation.Serdeable;
 
-import java.util.List;
-
 @Serdeable
 public class Response {
     boolean success;
     String message;
+    String token;
 
     public Response(boolean success, String message) {
         this.success = success;
         this.message = message;
+    }
+
+    public Response(boolean success, String message, String token) {
+        this.success = success;
+        this.message = message;
+        this.token = token;
     }
 
     public boolean isSuccess() {
@@ -26,5 +31,12 @@ public class Response {
     }
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getToken() {
+        return token;
+    }
+    public void setToken(String token) {
+        this.token = token;
     }
 }

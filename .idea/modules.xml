@@ -3,9 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/analyticsDashboard/demo/com.demo.demo.analyticsDashboard.main.iml" filepath="$PROJECT_DIR$/.idea/modules/analyticsDashboard/demo/com.demo.demo.analyticsDashboard.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/login/demo/com.demo.demo.login.main.iml" filepath="$PROJECT_DIR$/.idea/modules/login/demo/com.demo.demo.login.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.demo.demo.main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.demo.demo.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/transactions/demo/com.demo.demo.transactions.main.iml" filepath="$PROJECT_DIR$/.idea/modules/transactions/demo/com.demo.demo.transactions.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/demo.main.iml" filepath="$PROJECT_DIR$/.idea/modules/demo.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/demo.test.iml" filepath="$PROJECT_DIR$/.idea/modules/demo.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/login.demo.main.iml" filepath="$PROJECT_DIR$/.idea/modules/login.demo.main.iml" />
     </modules>
   </component>

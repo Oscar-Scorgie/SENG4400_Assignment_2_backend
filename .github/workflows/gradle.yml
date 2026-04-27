@@ -34,7 +34,7 @@ jobs:
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
     - name: Build with Gradle Wrapper
-      run: ./gradlew :login:shadowJar :analyticsDashboard:shadowJar
+      run: ./gradlew :login:shadowJar :analyticsDashboard:shadowJar :transactions:shadowJar
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
@@ -43,6 +43,7 @@ jobs:
         path: |
           login/demo/build/libs/login-0.1.jar
           analyticsDashboard/demo/build/libs/analyticsDashboard-0.1.jar
+          transactions/demo/build/libs/transactions-0.1.jar
 
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
@@ -101,3 +102,9 @@ jobs:
           aws --endpoint-url=http://localhost:4566 lambda update-function-code \
           --function-name analyticsDashboard \
           --zip-file fileb://analyticsDashboard/demo/build/libs/analyticsDashboard-0.1.jar
+
+      - name: Deploy Transactions Lambda
+        run: |
+          aws --endpoint-url=http://localhost:4566 lambda update-function-code \
+          --function-name transactions \
+          --zip-file fileb://transactions/demo/build/libs/transactions-0.1.jar

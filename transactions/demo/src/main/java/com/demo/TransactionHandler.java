@@ -2,18 +2,16 @@ package com.demo;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.demo.dtos.APIGatewayRequest;
-import com.demo.dtos.AnalyticsData;
+import com.demo.dtos.TransData;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
-import com.demo.dtos.Request;
 import com.demo.dtos.Response;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-public class AnalyticsHandler implements RequestHandler<APIGatewayRequest, Map<String, Object>> {
+public class TransactionHandler implements RequestHandler<APIGatewayRequest, Map<String, Object>> {
 
     @Override
     public Map<String, Object> handleRequest(APIGatewayRequest input, Context context) {
@@ -37,23 +35,28 @@ public class AnalyticsHandler implements RequestHandler<APIGatewayRequest, Map<S
     private Response handleSingleDate(String date) {
         String message = "";
 
-        // Look up date in db
-        AnalyticsRepository analyticsRepository = new AnalyticsRepository();
-        Map<String, AttributeValue> item = analyticsRepository.findByDate(date);
+        TransRepository transRepository = new TransRepository();
+        List<Map<String, AttributeValue>> items = transRepository.findByDate(date);
 
-        if (item == null || item.isEmpty()) {
+        if (items == null || items.isEmpty()) {
             message = "Date not found";
             return new Response(false, message);
         }
 
-        AnalyticsData data = new AnalyticsData(
-                item.get("date").s(),
-                Integer.parseInt(item.get("totalTransactions").n()),
-                Double.parseDouble(item.get("totalTransactionsAmount").n()),
-                Integer.parseInt(item.get("totalLogins").n())
-        );
+        List<TransData> list = new ArrayList<>();
+        for (Map<String, AttributeValue> item : items) {
+            list.add(new TransData(
+                    item.get("PK").s(),
+                    item.get("date").s(),
+                    item.get("fromUserId").s(),
+                    item.get("toUserId").s(),
+                    item.get("fromAccount").s(),
+                    item.get("toAccount").s(),
+                    Double.parseDouble(item.get("amount").n())
+            ));
+        }
 
-        return new Response(true, message, data);
+        return new Response(true, message, list);
     }
 
     private Response handleDateRange(String startDate, String endDate) {
@@ -63,25 +66,28 @@ public class AnalyticsHandler implements RequestHandler<APIGatewayRequest, Map<S
             return new Response(false, "Start date cannot be after end date");
         }
 
-        // Look up date in db
-        AnalyticsRepository analyticsRepository = new AnalyticsRepository();
-        List<Map<String, AttributeValue>> items = analyticsRepository.findByDateRange(startDate, endDate);
+        TransRepository transRepository = new TransRepository();
+        List<Map<String, AttributeValue>> items = new ArrayList<>(transRepository.findByDateRange(startDate, endDate));
 
         if (items == null || items.isEmpty()) {
             message = "Dates not found";
             return new Response(false, message);
         }
 
-        List<Map<String, AttributeValue>> items2 = new ArrayList<>(analyticsRepository.findByDateRange(startDate, endDate));
+        List<Map<String, AttributeValue>> items2 = new ArrayList<>(transRepository.findByDateRange(startDate, endDate));
         items2.sort((a, b) -> a.get("date").s().compareTo(b.get("date").s()));
 
-        List<AnalyticsData> list = new ArrayList<>();
+        List<TransData> list = new ArrayList<>();
         for (Map<String, AttributeValue> item : items2) {
-            list.add(new AnalyticsData(
+            list.add(new TransData(
+                    item.get("PK").s(),
                     item.get("date").s(),
-                    Integer.parseInt(item.get("totalTransactions").n()),
-                    Double.parseDouble(item.get("totalTransactionsAmount").n()),
-                    Integer.parseInt(item.get("totalLogins").n())));
+                    item.get("fromUserId").s(),
+                    item.get("toUserId").s(),
+                    item.get("fromAccount").s(),
+                    item.get("toAccount").s(),
+                    Double.parseDouble(item.get("amount").n())
+            ));
         }
 
         return new Response(true, message, list);
