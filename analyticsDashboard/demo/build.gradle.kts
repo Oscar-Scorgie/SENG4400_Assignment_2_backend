@@ -7,8 +7,6 @@ plugins {
 version = "0.1"
 group = "com.demo"
 
-
-
 repositories {
     mavenCentral()
 }
@@ -25,27 +23,19 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     implementation(platform("software.amazon.awssdk:bom:2.42.36"))
     implementation("software.amazon.awssdk:dynamodb")
+    implementation("com.amazonaws:aws-lambda-java-core:1.2.3")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
 }
-
-
 
 application {
     mainClass = "com.demo.Application"
 }
-
 java {
     sourceCompatibility = JavaVersion.toVersion("21")
     targetCompatibility = JavaVersion.toVersion("21")
 }
 
-
-
-
 graalvmNative.toolchainDetection = false
-
-
-
-
 
 micronaut {
     runtime("lambda_java")
@@ -66,9 +56,7 @@ micronaut {
         optimizeNetty = true
         replaceLogbackXml = true
     }
-
 }
-
 
 tasks.named<io.micronaut.gradle.docker.NativeImageDockerfile>("dockerfileNative") {
     jdkVersion = "21"
@@ -79,9 +67,7 @@ tasks.named<io.micronaut.gradle.docker.NativeImageDockerfile>("dockerfileNative"
     )
 }
 
-
-
-
-
-
-
+tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
+    archiveBaseName.set("analyticsDashboard")
+    archiveClassifier.set("")
+}

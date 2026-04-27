@@ -8,6 +8,7 @@ public class Request {
     String startDate;
     String endDate;
 
+    public Request() {}
 
     public Request(String date) {
         this.date = date;

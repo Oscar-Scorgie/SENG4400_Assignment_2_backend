@@ -25,6 +25,7 @@ dependencies {
     implementation(platform("software.amazon.awssdk:bom:2.42.36"))
     implementation("software.amazon.awssdk:dynamodb")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
+    implementation("com.amazonaws:aws-lambda-java-core:1.2.3")
 }
 
 application {
@@ -65,4 +66,9 @@ tasks.named<io.micronaut.gradle.docker.NativeImageDockerfile>("dockerfileNative"
         "-Dio.netty.allocator.numDirectArenas=0",
         "-Dio.netty.noPreferDirect=true"
     )
+}
+
+tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
+    archiveBaseName.set("login")
+    archiveClassifier.set("")
 }

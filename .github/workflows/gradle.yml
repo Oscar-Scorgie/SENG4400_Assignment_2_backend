@@ -41,8 +41,8 @@ jobs:
       with:
         name: lambda-jars
         path: |
-          login/demo/build/libs/login-0.1-all.jar
-          analyticsDashboard/demo/build/libs/analyticsDashboard-0.1-all.jar
+          login/demo/build/libs/login-0.1.jar
+          analyticsDashboard/demo/build/libs/analyticsDashboard-0.1.jar
 
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
@@ -94,10 +94,10 @@ jobs:
         run: |
           aws --endpoint-url=http://localhost:4566 lambda update-function-code \
           --function-name login \
-          --zip-file fileb://login/demo/build/libs/login-0.1-all.jar
+          --zip-file fileb://login/demo/build/libs/login-0.1.jar
 
       - name: Deploy Analytics Lambda
         run: |
           aws --endpoint-url=http://localhost:4566 lambda update-function-code \
           --function-name analyticsDashboard \
-          --zip-file fileb://analyticsDashboard/demo/build/libs/analyticsDashboard-0.1-all.jar
+          --zip-file fileb://analyticsDashboard/demo/build/libs/analyticsDashboard-0.1.jar

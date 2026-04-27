@@ -1,24 +1,35 @@
 package com.demo;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.demo.dtos.APIGatewayRequest;
 import com.demo.dtos.AnalyticsData;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 import com.demo.dtos.Request;
 import com.demo.dtos.Response;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
-public class AnalyticsHandler implements RequestHandler<Request, Response> {
+public class AnalyticsHandler implements RequestHandler<APIGatewayRequest, Map<String, Object>> {
 
     @Override
-    public Response handleRequest(Request input, Context context) {
-        if (input.getStartDate() != null && input.getEndDate() != null) {
-            return handleDateRange(input.getStartDate(), input.getEndDate());
-        }else{
-            return handleSingleDate(input.getDate());
+    public Map<String, Object> handleRequest(APIGatewayRequest input, Context context) {
+        ObjectMapper mapper = new ObjectMapper();
+
+        Map<String, String> params = input.getQueryStringParameters();
+
+        String startDate = params != null ? params.get("startDate") : null;
+        String endDate = params != null ? params.get("endDate") : null;
+        String date = params != null ? params.get("date") : null;
+
+        if (startDate != null && endDate != null) {
+            return returnFunction(handleDateRange(startDate, endDate), mapper);
+        } else if (date != null) {
+            return returnFunction(handleSingleDate(date), mapper);
+        } else {
+            return returnFunction(new Response(false, "No date provided"), mapper);
         }
     }
 
@@ -70,5 +81,20 @@ public class AnalyticsHandler implements RequestHandler<Request, Response> {
         }
 
         return new Response(true, message, list);
+    }
+
+    private Map<String, Object> returnFunction(Response response, ObjectMapper mapper){
+        try {
+            return Map.of(
+                    "statusCode", 200,
+                    "headers", Map.of(
+                            "Content-Type", "application/json",
+                            "Access-Control-Allow-Origin", "*"
+                    ),
+                    "body", mapper.writeValueAsString(response)
+            );
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -1,5 +1,8 @@
 package com.demo.dtos;
 
+import io.micronaut.serde.annotation.Serdeable;
+
+@Serdeable
 public class APIGatewayRequest {
     private String body;
 
