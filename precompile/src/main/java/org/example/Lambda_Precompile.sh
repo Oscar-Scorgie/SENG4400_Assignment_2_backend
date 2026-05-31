@@ -1,4 +1,4 @@
-awslocal lambda create-function \
+aws lambda create-function \
   --function-name login \
   --runtime java21 \
   --handler com.demo.AuthHandler::handleRequest \
@@ -7,7 +7,7 @@ awslocal lambda create-function \
   --timeout 30 \
   --environment Variables={DYNAMODB_ENDPOINT=http://172.17.0.2:4566}
 
-awslocal lambda create-function \
+aws lambda create-function \
   --function-name analyticsDashboard \
   --runtime java21 \
   --handler com.demo.AnalyticsHandler::handleRequest \
@@ -16,7 +16,7 @@ awslocal lambda create-function \
   --timeout 30 \
   --environment Variables={DYNAMODB_ENDPOINT=http://172.17.0.2:4566}
 
-awslocal lambda create-function \
+aws lambda create-function \
   --function-name transactions \
   --runtime java21 \
   --handler com.demo.TransactionHandler::handleRequest \
@@ -25,27 +25,27 @@ awslocal lambda create-function \
   --timeout 30 \
   --environment Variables={DYNAMODB_ENDPOINT=http://172.17.0.2:4566}
 
-API_ID=$(awslocal apigateway create-rest-api \
+API_ID=$(aws apigateway create-rest-api \
   --name "banking-api" \
   --query 'id' --output text)
 
-ROOT_ID=$(awslocal apigateway get-resources \
+ROOT_ID=$(aws apigateway get-resources \
   --rest-api-id $API_ID \
   --query 'items[0].id' --output text)
 
-LOGIN_ID=$(awslocal apigateway create-resource \
+LOGIN_ID=$(aws apigateway create-resource \
   --rest-api-id $API_ID \
   --parent-id $ROOT_ID \
   --path-part "login" \
   --query 'id' --output text)
 
-awslocal apigateway put-method \
+aws apigateway put-method \
   --rest-api-id $API_ID \
   --resource-id $LOGIN_ID \
   --http-method POST \
   --authorization-type NONE
 
-awslocal apigateway put-integration \
+aws apigateway put-integration \
   --rest-api-id $API_ID \
   --resource-id $LOGIN_ID \
   --http-method POST \
@@ -53,19 +53,19 @@ awslocal apigateway put-integration \
   --integration-http-method POST \
   --uri "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:000000000000:function:login/invocations"
 
-ANALYTICS_ID=$(awslocal apigateway create-resource \
+ANALYTICS_ID=$(aws apigateway create-resource \
   --rest-api-id $API_ID \
   --parent-id $ROOT_ID \
   --path-part "analytics" \
   --query 'id' --output text)
 
-awslocal apigateway put-method \
+aws apigateway put-method \
   --rest-api-id $API_ID \
   --resource-id $ANALYTICS_ID \
   --http-method GET \
   --authorization-type NONE
 
-awslocal apigateway put-integration \
+aws apigateway put-integration \
   --rest-api-id $API_ID \
   --resource-id $ANALYTICS_ID \
   --http-method GET \
@@ -73,19 +73,19 @@ awslocal apigateway put-integration \
   --integration-http-method POST \
   --uri "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:000000000000:function:analyticsDashboard/invocations"
 
-TRANSACTIONS_ID=$(awslocal apigateway create-resource \
+TRANSACTIONS_ID=$(aws apigateway create-resource \
   --rest-api-id $API_ID \
   --parent-id $ROOT_ID \
   --path-part "transactions" \
   --query 'id' --output text)
 
-awslocal apigateway put-method \
+aws apigateway put-method \
   --rest-api-id $API_ID \
   --resource-id $TRANSACTIONS_ID \
   --http-method GET \
   --authorization-type NONE
 
-awslocal apigateway put-integration \
+aws apigateway put-integration \
   --rest-api-id $API_ID \
   --resource-id $TRANSACTIONS_ID \
   --http-method GET \
@@ -93,7 +93,7 @@ awslocal apigateway put-integration \
   --integration-http-method POST \
   --uri "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:000000000000:function:transactions/invocations"
 
-awslocal apigateway create-deployment \
+aws apigateway create-deployment \
   --rest-api-id $API_ID \
   --stage-name local
 
