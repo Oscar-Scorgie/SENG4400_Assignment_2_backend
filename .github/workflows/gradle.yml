@@ -15,8 +15,9 @@ on:
 
 jobs:
   build:
-
-    runs-on: self-hosted
+    # Change here so we start up an ubuntu container with localstack
+    # Run gradlew .\setup so container is precompiled for ci/cd intergration
+    runs-on: ubuntu-latest
     permissions:
       contents: write
 
@@ -58,7 +59,7 @@ jobs:
 
   dependency-submission:
 
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     permissions:
       contents: write
 
@@ -76,30 +77,44 @@ jobs:
       uses: gradle/actions/dependency-submission@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
   deploy:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     needs: build
     environment: production
+    services:
+      localstack:
+        image: localstack/localstack
+        ports:
+          - 4566:4566
+
     steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: lambda-jars
+          path: .
+
+      - name: Wait For LocalStack
+        run: |
+          until curl -s http://localhost:4566/_localstack/health | grep -q '"dynamodb": "available"'; do 
+            sleep 2 
+          done
+
       - name: Configure LocalStack
         run: |
           aws configure set aws_access_key_id test
           aws configure set aws_secret_access_key test
           aws configure set region us-east-1
 
-      - name: Deploy Login Lambda
-        run: |
-          aws --endpoint-url=http://localhost:4566 lambda update-function-code \
-          --function-name login \
-          --zip-file fileb://login/demo/build/libs/login-0.1.jar
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
 
-      - name: Deploy Analytics Lambda
-        run: |
-          aws --endpoint-url=http://localhost:4566 lambda update-function-code \
-          --function-name analyticsDashboard \
-          --zip-file fileb://analyticsDashboard/demo/build/libs/analyticsDashboard-0.1.jar
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582
 
-      - name: Deploy Transactions Lambda
-        run: |
-          aws --endpoint-url=http://localhost:4566 lambda update-function-code \
-          --function-name transactions \
-          --zip-file fileb://transactions/demo/build/libs/transactions-0.1.jar
+      - name: Run precompile setup
+        run: ./gradlew setup

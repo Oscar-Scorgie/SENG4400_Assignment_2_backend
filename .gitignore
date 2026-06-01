@@ -1,0 +1,7 @@
+.idea
+.gradle
+build/
+*.class
+*.jar
+.DS_Store
+Thumbs.db
