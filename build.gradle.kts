@@ -6,13 +6,9 @@ tasks.register("setup") {
         ":transactions:shadowJar",
         ":precompile:run"
     )
-}
-project(":precompile").afterEvaluate {
-    tasks.named("run") {
-        mustRunAfter(
-            ":login:shadowJar",
-            ":analyticsDashboard:shadowJar",
-            ":transactions:shadowJar"
-        )
-    }
+    tasks.getByPath(":precompile:run").mustRunAfter(
+        ":login:shadowJar",
+        ":analyticsDashboard:shadowJar",
+        ":transactions:shadowJar"
+    )
 }
