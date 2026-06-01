@@ -82,9 +82,20 @@ jobs:
     environment: production
     services:
       localstack:
-        image: localstack/localstack
+        image: localstack/localstack-pro:latest
         ports:
           - 4566:4566
+        env:
+          LOCALSTACK_AUTH_TOKEN: ${{ secrets.LOCALSTACK_AUTH_TOKEN }}
+          DEBUG: 0
+          SERVICES: lambda,dynamodb,apigateway
+          DEFAULT_REGION: us-east-1
+        options: >-
+          --health-cmd "curl -s http://localhost:4566/_localstack/health | grep -q available"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+          --health-start-period 30s
 
     steps:
       - uses: actions/checkout@v4
