@@ -8,5 +8,5 @@ Works in conjunction with the SENG4400 Assignment 2 Frontend.
 # Prerequisites:
 In order to simulate the proper execution, LocalStack must be installed on your given system.
 Localstack simulates the AWS environment.
-You then need to copy and paste the Precompile files (Lambda_Precompile and DynamoDB_Precompile) into a terminal, this allows for a proper environment to be built for which the product can be demonstrated. 
+You then need to execute precompile/src/main/java/org/example/LocalStackCompile.java, this allows for a proper environment to be built for which the product can be demonstrated. 
 
